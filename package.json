@@ -3,7 +3,7 @@
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
-    "ios": "expo start --ios",
+    "ios": "concurrently -k -n TYPESCRIPT,EXPO -c yellow,green 'yarn tsc --watch' 'expo start --ios'",
     "web": "expo start --web",
     "eject": "expo eject"
   },
