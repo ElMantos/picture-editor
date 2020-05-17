@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { View, Dimensions, Text, Image, TouchableOpacity } from "react-native";
+import { View, Dimensions, Text, TouchableOpacity } from "react-native";
 import tailwind from "tailwind-rn";
 
+import { openImagePicker } from "./utils";
 import { Camera, Button, EditablePicture } from "./components";
 
 const { height: screenHeight, width: screenWidth } = Dimensions.get("screen");
@@ -10,12 +11,14 @@ interface SelectPictureProps {
   displayCamera: () => void;
   displayControls: boolean;
   setDisplayControls: () => void;
+  setPicture: (picture: object) => void;
 }
 
 const SelectPicture: React.FC<SelectPictureProps> = ({
   displayCamera,
   displayControls,
-  setDisplayControls
+  setDisplayControls,
+  setPicture
 }) => {
   if (!displayControls) {
     return (
@@ -39,7 +42,14 @@ const SelectPicture: React.FC<SelectPictureProps> = ({
         />
       </View>
       <View style={tailwind("w-1/2")}>
-        <Button onPress={() => null} label="Show my pictures" />
+        <Button
+          onPress={() =>
+            openImagePicker((picture: object) => {
+              setPicture(picture);
+            })
+          }
+          label="Show my pictures"
+        />
       </View>
     </View>
   );
@@ -74,6 +84,10 @@ const App: React.FC = () => {
       )}
       <View style={tailwind("pb-4 px-2 pt-8")}>
         <SelectPicture
+          setPicture={(picture: object) => {
+            setPicture(picture);
+            setDisplayControls(false);
+          }}
           setDisplayControls={() => {
             setDisplayControls(true);
             setTimeout(() => {

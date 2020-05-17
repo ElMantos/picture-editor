@@ -11,7 +11,6 @@ interface Props {
 const EditablePicture: React.FC<Props> = ({ picture }) => {
   return (
     <View>
-      <Text>EditablePicture</Text>
       <Image
         source={picture}
         resizeMode="contain"
