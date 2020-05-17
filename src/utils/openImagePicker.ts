@@ -22,13 +22,12 @@ const openImagePicker = async (callback: (picture: object) => void) => {
       aspect: [4, 3],
       quality: 1
     });
-    console.log(result);
 
     if (!result.cancelled) {
       callback(result);
     }
   } catch (E) {
-    console.log(E);
+    console.error(E);
   }
 };
 

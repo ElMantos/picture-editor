@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text, Image, Dimensions } from "react-native";
 import tailwind from "tailwind-rn";
 
-const { height: screenHeight } = Dimensions.get("screen");
+const { width: screenWidth, height: screenHeight } = Dimensions.get("screen");
 
 interface Props {
   picture: object;
@@ -10,13 +10,16 @@ interface Props {
 
 const EditablePicture: React.FC<Props> = ({ picture }) => {
   return (
-    <View>
+    <View
+      style={tailwind("absolute top-0 left-0 bg-blue-300 w-full h-full z-20")}
+    >
+      <Text>Editable</Text>
       <Image
         source={picture}
         resizeMode="contain"
         style={{
           ...tailwind("h-full w-full"),
-          height: (screenHeight / 100) * 80
+          width: screenWidth
         }}
       />
     </View>

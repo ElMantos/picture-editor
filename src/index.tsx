@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Dimensions, Text, TouchableOpacity } from "react-native";
+import { View, Dimensions, Text, TouchableOpacity, Image } from "react-native";
 import tailwind from "tailwind-rn";
 
 import { openImagePicker } from "./utils";
@@ -57,10 +57,17 @@ const SelectPicture: React.FC<SelectPictureProps> = ({
 
 const App: React.FC = () => {
   const [displayCamera, setDisplayCamera] = useState<boolean>(false);
-  const [picture, setPicture] = useState<object | null>();
+  const [picture, setPicture] = useState<object>({});
   const [displayControls, setDisplayControls] = useState<boolean>(true);
+  const [displayEditor, setDisplayEditor] = useState<boolean>(false);
   return (
-    <View>
+    <View
+      style={{
+        height: screenHeight,
+        width: screenWidth
+      }}
+    >
+      {displayEditor && <EditablePicture picture={picture} />}
       {displayCamera && (
         <View
           style={{
@@ -99,10 +106,27 @@ const App: React.FC = () => {
             setDisplayCamera(true);
           }}
         />
-        <Text style={tailwind("text-xl text-gray-800 text-center mt-4")}>
-          Please select a picture to edit
-        </Text>
-        {picture && <EditablePicture picture={picture} />}
+        {!Object.keys(picture).length && (
+          <Text style={tailwind("text-xl text-gray-800 text-center mt-4")}>
+            Please select a picture to edit
+          </Text>
+        )}
+        {picture && (
+          <TouchableOpacity
+            onPress={() => {
+              setDisplayEditor(true);
+            }}
+          >
+            <Image
+              source={picture}
+              resizeMode="contain"
+              style={{
+                ...tailwind("h-full w-full"),
+                height: (screenHeight / 100) * 80
+              }}
+            />
+          </TouchableOpacity>
+        )}
       </View>
     </View>
   );
