@@ -3,9 +3,11 @@ import { Text, View, TouchableOpacity } from "react-native";
 import { Camera } from "expo-camera";
 import tailwind from "tailwind-rn";
 
+import { ImageInterface } from "~/interfaces";
+
 interface Props {
   onClose: () => void;
-  onSnap: (picture: object) => void;
+  onSnap: (picture: ImageInterface) => void;
 }
 
 const CameraView: React.FC<Props> = ({ onClose, onSnap }) => {

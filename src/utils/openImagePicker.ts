@@ -2,6 +2,8 @@ import * as ImagePicker from "expo-image-picker";
 import Constants from "expo-constants";
 import * as Permissions from "expo-permissions";
 
+import { ImageInterface } from "~/interfaces";
+
 const getPermissionAsync = async () => {
   //@ts-ignore
   if (Constants.platform.ios) {
@@ -12,7 +14,7 @@ const getPermissionAsync = async () => {
   }
 };
 
-const openImagePicker = async (callback: (picture: object) => void) => {
+const openImagePicker = async (callback: (picture: ImageInterface) => void) => {
   await getPermissionAsync();
 
   try {

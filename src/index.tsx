@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { View, Dimensions, Text, TouchableOpacity, Image } from "react-native";
 import tailwind from "tailwind-rn";
 
+import { ImageInterface } from "./interfaces";
 import { openImagePicker } from "./utils";
 import { Camera, Button, EditablePicture } from "./components";
 
@@ -11,7 +12,7 @@ interface SelectPictureProps {
   displayCamera: () => void;
   displayControls: boolean;
   setDisplayControls: () => void;
-  setPicture: (picture: object) => void;
+  setPicture: (picture: ImageInterface) => void;
 }
 
 const SelectPicture: React.FC<SelectPictureProps> = ({
@@ -44,7 +45,7 @@ const SelectPicture: React.FC<SelectPictureProps> = ({
       <View style={tailwind("w-1/2")}>
         <Button
           onPress={() =>
-            openImagePicker((picture: object) => {
+            openImagePicker((picture: ImageInterface) => {
               setPicture(picture);
             })
           }
@@ -57,7 +58,7 @@ const SelectPicture: React.FC<SelectPictureProps> = ({
 
 const App: React.FC = () => {
   const [displayCamera, setDisplayCamera] = useState<boolean>(false);
-  const [picture, setPicture] = useState<object>({});
+  const [picture, setPicture] = useState<ImageInterface>({ uri: "" });
   const [displayControls, setDisplayControls] = useState<boolean>(true);
   const [displayEditor, setDisplayEditor] = useState<boolean>(false);
   return (
@@ -67,7 +68,14 @@ const App: React.FC = () => {
         width: screenWidth
       }}
     >
-      {displayEditor && <EditablePicture picture={picture} />}
+      {displayEditor && picture.uri ? (
+        <EditablePicture
+          onClose={() => {
+            setDisplayEditor(false);
+          }}
+          picture={picture}
+        />
+      ) : null}
       {displayCamera && (
         <View
           style={{
@@ -91,7 +99,7 @@ const App: React.FC = () => {
       )}
       <View style={tailwind("pb-4 px-2 pt-8")}>
         <SelectPicture
-          setPicture={(picture: object) => {
+          setPicture={(picture: ImageInterface) => {
             setPicture(picture);
             setDisplayControls(false);
           }}
@@ -106,12 +114,12 @@ const App: React.FC = () => {
             setDisplayCamera(true);
           }}
         />
-        {!Object.keys(picture).length && (
+        {!picture.uri && (
           <Text style={tailwind("text-xl text-gray-800 text-center mt-4")}>
             Please select a picture to edit
           </Text>
         )}
-        {picture && (
+        {picture.uri ? (
           <TouchableOpacity
             onPress={() => {
               setDisplayEditor(true);
@@ -126,7 +134,7 @@ const App: React.FC = () => {
               }}
             />
           </TouchableOpacity>
-        )}
+        ) : null}
       </View>
     </View>
   );
