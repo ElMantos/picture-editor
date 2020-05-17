@@ -76,6 +76,9 @@ const App: React.FC = () => {
         <SelectPicture
           setDisplayControls={() => {
             setDisplayControls(true);
+            setTimeout(() => {
+              setDisplayControls(false);
+            }, 3000);
           }}
           displayControls={displayControls}
           displayCamera={() => {
@@ -85,17 +88,7 @@ const App: React.FC = () => {
         <Text style={tailwind("text-xl text-gray-800 text-center mt-4")}>
           Please select a picture to edit
         </Text>
-        {picture && (
-          <Image
-            source={picture}
-            resizeMode="contain"
-            style={{
-              ...tailwind("h-full w-full"),
-              height: (screenHeight / 100) * 80
-            }}
-          />
-        )}
-        <EditablePicture />
+        {picture && <EditablePicture picture={picture} />}
       </View>
     </View>
   );
